@@ -4,7 +4,7 @@ const client = require('../config/pg')
 // @route GET /api/dashboard/factories
 // @access private
 
-const retrieveAllFactories = (req, res) => {
+const list = (req, res) => {
   client
     .query('SELECT * FROM factories')
     .then((response) => {
@@ -19,7 +19,7 @@ const retrieveAllFactories = (req, res) => {
 // @route PATCH /api/dashboard/factories/:id
 // @access private
 
-const updateFactoryList = (req, res) => {
+const edit = (req, res) => {
   const { id } = req.params
   const { name, membership_date, membership_due, company_size, gold_member } =
     req.body
@@ -40,7 +40,7 @@ const updateFactoryList = (req, res) => {
 // @route POST /api/dashboard/factories
 // @access private
 
-const addFactory = (req, res) => {
+const create = (req, res) => {
   const { name, membership_date, membership_due, company_size, gold_member } =
     req.body
 
@@ -64,7 +64,7 @@ const addFactory = (req, res) => {
 // @route DELETE /api/dashboard/factories/:id
 // @access private
 
-const deleteFactory = (req, res) => {
+const remove = (req, res) => {
   const { id } = req.params
   client
     .query('DELETE FROM factories WHERE id = $1 RETURNING *', [id])
@@ -77,8 +77,8 @@ const deleteFactory = (req, res) => {
 }
 
 module.exports = {
-  retrieveAllFactories,
-  updateFactoryList,
-  addFactory,
-  deleteFactory,
+  list,
+  edit,
+  create,
+  remove,
 }
