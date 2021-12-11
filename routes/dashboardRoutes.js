@@ -4,12 +4,11 @@ const {
   retrieveAllFactories,
   updateFactoryList,
   addFactory,
+  deleteFactory,
 } = require('../controllers/dashboardController')
 
-router
-  .route('/')
-  .get(retrieveAllFactories)
-  .patch(updateFactoryList)
-  .post(addFactory)
+router.route('/').get(retrieveAllFactories).post(addFactory)
+
+router.route('/:id').delete(deleteFactory).patch(updateFactoryList)
 
 module.exports = router
