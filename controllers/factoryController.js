@@ -76,9 +76,27 @@ const remove = (req, res) => {
     })
 }
 
+// @desc CREATE new column
+// @route POST /api/dashboard/factories/columns
+// @access private
+
+const addColumn = (req, res) => {
+  const { name, type } = req.body
+
+  client
+    .query(`ALTER TABLE factories ADD COLUMN ${name} ${type}`)
+    .then((response) => {
+      res.status(200).json({ msg: 'success' })
+    })
+    .catch((err) => {
+      res.status(400).json({ err: err.message })
+    })
+}
+
 module.exports = {
   list,
   edit,
   create,
   remove,
+  addColumn,
 }
