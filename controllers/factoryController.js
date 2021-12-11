@@ -93,10 +93,27 @@ const addColumn = (req, res) => {
     })
 }
 
+// @desc DELETE a column
+// @route DELETE /api/dashboard/factories/columns/:name
+// @access private
+
+const removeColumn = (req, res) => {
+  const { name } = req.params
+  client
+    .query(`ALTER TABLE factories DROP COLUMN IF EXISTS ${name} `)
+    .then((response) => {
+      res.status(200).json({ msg: 'success' })
+    })
+    .catch((err) => {
+      res.status(400).json({ err: err.message })
+    })
+}
+
 module.exports = {
   list,
   edit,
   create,
   remove,
   addColumn,
+  removeColumn,
 }
