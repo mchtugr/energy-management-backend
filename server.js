@@ -15,6 +15,7 @@ app.use(express.json())
 
 // define routes
 app.use('/api/users', require('./routes/userRoutes'))
+app.use('/api/factories', require('./routes/dashboardRoutes'))
 
 const port = process.env.PORT || 3000
 
