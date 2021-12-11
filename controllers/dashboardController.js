@@ -16,7 +16,7 @@ const retrieveAllFactories = (req, res) => {
 }
 
 // @desc UPDATE factory list
-// @route PATCH /api/dashboard/factories
+// @route PATCH /api/dashboard/factories/:id
 // @access private
 
 const updateFactoryList = (req, res) => {
@@ -60,4 +60,25 @@ const addFactory = (req, res) => {
     })
 }
 
-module.exports = { retrieveAllFactories, updateFactoryList, addFactory }
+// @desc DELETE new factory
+// @route DELETE /api/dashboard/factories/:id
+// @access private
+
+const deleteFactory = (req, res) => {
+  const { id } = req.params
+  client
+    .query('DELETE FROM factories WHERE id = $1 RETURNING *', [id])
+    .then((response) => {
+      res.status(200).json({ msg: response.rows })
+    })
+    .catch((err) => {
+      res.status(400).json({ err: err.message })
+    })
+}
+
+module.exports = {
+  retrieveAllFactories,
+  updateFactoryList,
+  addFactory,
+  deleteFactory,
+}
