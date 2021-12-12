@@ -64,18 +64,18 @@ const loginUser = async (req, res) => {
     let user = await User.findOne({ email })
 
     if (!user) {
-      return res.status(400).json({ erors: [{ msg: 'Invalid email' }] })
+      return res.status(400).send('Please check your email address!')
     }
     // compare passwords
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) {
-      return res.status(400).json({ erors: [{ msg: 'Invalid password' }] })
+      return res.status(404).send('Incorrect password!')
     }
 
     const payload = {
       user: {
         id: user._id,
-        username: user.username,
+        name: user.name,
         email: user.email,
         role: user.role,
       },
@@ -89,7 +89,11 @@ const loginUser = async (req, res) => {
         if (err) {
           throw err
         } else {
-          res.status(200).json({ token })
+          res.status(200).json({
+            name: user.name,
+            role: user.role,
+            token,
+          })
         }
       }
     )
